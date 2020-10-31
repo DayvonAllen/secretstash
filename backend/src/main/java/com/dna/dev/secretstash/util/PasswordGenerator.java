@@ -19,13 +19,13 @@ public class PasswordGenerator {
         this.environment = environment;
     }
 
-    public String generateBase64Password(String password) throws UnsupportedEncodingException {
+    public String generateBase64Password(String password) {
         String saltedPassword = password + environment.getProperty("salt");
         byte[] newPassword = saltedPassword.getBytes();
         return Base64.getUrlEncoder().withoutPadding().encodeToString(newPassword);
     }
 
-    public String hashPassword(String newPassword) throws UnsupportedEncodingException , NoSuchAlgorithmException {
+    public String hashPassword(String newPassword) throws NoSuchAlgorithmException {
         byte[] bytes = newPassword.getBytes(StandardCharsets.US_ASCII);
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
         messageDigest.update(bytes);

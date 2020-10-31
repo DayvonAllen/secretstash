@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 @Service
@@ -26,7 +25,7 @@ public class PasswordServiceImpl implements PasswordService {
             RequestObjectDto requestObjectDto = new RequestObjectDto();
             requestObjectDto.setPassword(passwordGenerator.hashPassword(passwordGenerator.generateRandomPassword()));
             return requestObjectDto;
-        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e){
             LOGGER.error("Can't generate password");
             throw new SecretStashException("Problem generating password");
         }
@@ -39,7 +38,7 @@ public class PasswordServiceImpl implements PasswordService {
             newPassword.setPassword(passwordGenerator
                     .hashPassword(passwordGenerator.generateBase64Password(requestObjectDto.getPassword())));
             return newPassword;
-        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e){
             LOGGER.error("Can't generate password");
             throw new SecretStashException("Problem generating password");
         }
