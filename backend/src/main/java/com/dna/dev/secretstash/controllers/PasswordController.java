@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/password/")
+@CrossOrigin
 public class PasswordController {
 
     private final PasswordService passwordService;
