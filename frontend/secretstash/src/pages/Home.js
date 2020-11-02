@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {Container, Card, Button, Form, Divider, Input, Grid, Segment, Icon} from 'semantic-ui-react';
-// import Api from '../util/Api';
+import Api from '../util/Api';
 import axios from 'axios'
 
 const Home = () => {
-    const [userPassword, setUserPassword] = useState('')
+    const [userPassword, setUserPassword] = useState({
+        password: ''
+    })
     const [password, setPassword] = useState('')
     
     useEffect(() => {
@@ -13,7 +15,7 @@ const Home = () => {
 
  const generatePW = async () => {
     try {
-        const res = await axios.get('http://localhost:8080/api/v1/password/random')
+        const res = await Api.get('random')
         setPassword(res.data.password)
     } catch (err) {
         console.error(err)
@@ -28,20 +30,23 @@ const Home = () => {
     }
      try {
          const res = await axios.post('http://localhost:8080/api/v1/password/create', pw, config)
-         setUserPassword(res.data.password)
-         console.log(res)
+         setUserPassword({
+             password: res.data.password
+            })
      } catch (err) {
          console.error(err)
      }
  }
- const onChange = (e) => setUserPassword(e.target.value)
+ const onChange = (e) => {
+        setUserPassword({ 
+         [e.target.name] : e.target.value
+        })
+    }
  
  const onSubmit = (e) => {
     e.preventDefault();
-    if(userPassword !== '') {
+    if(userPassword.password !== '') {
         hashPW(userPassword)
-        console.log(userPassword)
-
     }
  }
     return (
@@ -72,14 +77,15 @@ const Home = () => {
                             label='Password'
                             type='text'
                             placeholder='Enter Password'
-                            value={userPassword}
+                            value={userPassword.password}
                             onChange={onChange}
                             control={Input}
                             />
                           <Button color='violet' type='submit'>Secure password</Button>
-                           
+                          <Button color='teal' type='button' onClick={() =>  navigator.clipboard.writeText(userPassword.password)}>Copy</Button>
+
                         </Form> 
-                   
+
                     </Card.Description>
                 </Card.Content>
             </Card>
