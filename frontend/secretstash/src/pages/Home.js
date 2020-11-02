@@ -27,8 +27,10 @@ const Home = () => {
             'Content-Type': 'application/json'
         }
     }
+    
+    
      try {
-         const res = await Api.post('create', pw, config)
+         const res = await Api.post('create', pw , config)
          setUserPassword({
              password: res.data.password
             })
@@ -74,6 +76,7 @@ const Home = () => {
                         <Form style={{marginTop: '2rem'}}  onSubmit={onSubmit}>
                             <Form.Field 
                             label='Password'
+                            name="password"
                             type='text'
                             placeholder='Enter Password'
                             value={userPassword.password}
