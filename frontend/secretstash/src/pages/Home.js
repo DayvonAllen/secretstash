@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Container, Card, Button, Form, Divider, Input, Grid, Segment, Icon} from 'semantic-ui-react';
 import Api from '../util/Api';
-import axios from 'axios'
 
 const Home = () => {
     const [userPassword, setUserPassword] = useState({
@@ -29,7 +28,7 @@ const Home = () => {
         }
     }
      try {
-         const res = await axios.post('http://localhost:8080/api/v1/password/create', pw, config)
+         const res = await Api.post('create', pw, config)
          setUserPassword({
              password: res.data.password
             })
