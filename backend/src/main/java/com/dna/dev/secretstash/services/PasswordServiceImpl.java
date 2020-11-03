@@ -33,7 +33,6 @@ public class PasswordServiceImpl implements PasswordService {
 
     @Override
     public RequestObjectDto createSecurePassword(RequestObjectDto requestObjectDto) {
-        System.out.println(requestObjectDto.getPassword());
         try {
             RequestObjectDto newPassword = new RequestObjectDto();
             newPassword.setPassword(passwordGenerator
