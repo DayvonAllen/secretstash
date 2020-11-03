@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {Container, Card, Button, Form, Divider, Input, Grid, Segment, Icon} from 'semantic-ui-react';
+import {Card, Button, Form, Divider, Input, Segment, Icon} from 'semantic-ui-react';
+import {Container, Row, Col} from 'react-bootstrap';
 import Api from '../util/Api';
 
 const Home = () => {
@@ -51,46 +52,56 @@ const Home = () => {
     }
  }
     return (
-        <Container className='home'>
+        <Container className='py-5'>
             <Card >
                 <Card.Content style={{margin: '3rem 0'}}>
-                    <Card.Header> 
+                    <Row className='d-flex'>
+                        <Col xs className='mx-auto'>
+                        <Card.Header> 
                         <h1 style={{textAlign: 'center', color: '#163a62'}}>Generate a secure password</h1>
-                    </Card.Header>
-                    <Card.Description style={{color: '#163a62'}}>
-                        <h3>
-                        Use our tool to create the world's strongest password with just
-                        a click
-                        </h3>
-                        <Segment raised padded className='seg'>
-                                <h3 style={{marginBottom: '0', marginRight: '15px'}}>{password}</h3>
-                            <span style={{position: 'relative', float:'right !important'}}>
-                            <Icon size='big' link='/' name='copy outline' onClick={() =>  navigator.clipboard.writeText(password)}/>
-
-                            </span>
-                        </Segment>
-                        <Button color='violet' onClick={() => generatePW()}>Generate Password</Button>  
-
-                        <h2 style={{marginTop: '5rem'}}>Secure your existing password</h2>
-                        <Divider />
-                        <Form style={{marginTop: '2rem'}}  onSubmit={onSubmit}>
-                            <Form.Field 
-                            label='Password'
-                            name="password"
-                            type='text'
-                            placeholder='Enter Password'
-                            value={userPassword.password}
-                            onChange={onChange}
-                            control={Input}
-                            />
-                          <Button color='violet' type='submit'>Secure password</Button>
-                          <Button color='teal' type='button' onClick={() =>  navigator.clipboard.writeText(userPassword.password)}>Copy</Button>
-
-                        </Form> 
-
-                    </Card.Description>
-                </Card.Content>
-            </Card>
+                        </Card.Header>
+                        </Col>
+                    </Row>
+                    <Row className='d-flex '>
+                        <Col xs className='d-flex justify-content-center'>
+                            <Card.Description style={{color: '#163a62'}}>
+                                <h3 className='mt-3'>
+                                    Use our tool to create the world's strongest password with just
+                                    a click
+                                </h3>
+                                <Segment raised padded className='seg'>
+                                    <Row className='d-flex'>
+                                        <Col  xs={10} lg={11} className='flex-column mx-auto'>
+                                            <h4 className='mb-0'>{password}</h4>
+                                        </Col>
+                                        <Col xs={2} md={1}>
+                                        <span>
+                                            <Icon size='big' link='/' name='copy outline' onClick={() =>  navigator.clipboard.writeText(password)}/>
+                                        </span>
+                                        </Col>
+                                    </Row>
+                                </Segment>
+                                <Button color='violet' onClick={() => generatePW()}>Generate Password</Button>  
+                                <h2 className='mt-5'>Secure your existing password</h2>
+                                <Divider />
+                                <Form style={{marginTop: '2rem'}}  onSubmit={onSubmit}>
+                                    <Form.Field 
+                                    label='Password'
+                                    name="password"
+                                    type='text'
+                                    placeholder='Enter Password'
+                                    value={userPassword.password}
+                                    onChange={onChange}
+                                    control={Input}
+                                    />
+                                <Button color='violet' type='submit'>Secure password</Button>
+                                <Button color='teal' type='button' onClick={() =>  navigator.clipboard.writeText(userPassword.password)}>Copy</Button>
+                                </Form> 
+                            </Card.Description>
+                        </Col>
+                    </Row>  
+                </Card.Content>  
+           </Card>
         </Container>
     )
 }
