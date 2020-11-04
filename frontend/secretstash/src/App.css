@@ -24,12 +24,19 @@ a:hover {
 }
 
 @media(max-width: 600px) {
+  .seg {
+    padding: 15px !important;
+  }
   .seg h4{
-    font-size: .8rem;
-    margin-bottom: 0 !important;
+    font-size: .70rem;
+  }
+  .seg .flex-column {
+    padding-right: 0 !important;
+    margin: auto !important;
   }
   .seg i {
-    font-size: 25px !important;
+    font-size: 20px !important;
+    padding-right: 5px !important;
   }
   .navbar h2 {
     font-size: 1.5em !important;
@@ -45,12 +52,16 @@ a:hover {
     font-size: 1.6em !important;
   }
   .container-fluid {
-    height: 3rem !important;
+    height: 4.5rem !important;
   }
 }
 
 @media(min-width:768px) and (max-width: 768px) {
   .container-fluid {
     height: 13.3rem !important;
+  }
+  .seg h4{
+    font-size: 1.3rem;
+    margin-bottom: 0 !important;
   }
 }

@@ -93,8 +93,8 @@ const Home = () => {
                                     Use our tool to create the world's strongest password with just
                                     a click
                                 </h3>
-                                <Segment raised padded className='seg'>
-                                    <Row className='d-flex'>
+                                <Segment raised padded className='seg mx-auto'>
+                                    <Row >
                                         <Col  xs={10} lg={11} className='flex-column mx-auto'>
                                             <h4 className='mb-0'>{loading ? loader() : password}</h4>
                                         </Col>
