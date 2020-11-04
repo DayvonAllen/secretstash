@@ -1,24 +1,28 @@
 import React, {useState, useEffect} from 'react'
-import {Card, Button, Form, Divider, Input, Segment, Icon} from 'semantic-ui-react';
-import {Container, Row, Col} from 'react-bootstrap';
+import {Card, Button, Form, Divider, Input, Segment, Icon}  from 'semantic-ui-react';
+import {Container, Row, Col, Alert} from 'react-bootstrap';
 import Api from '../util/Api';
 
 const Home = () => {
     const [userPassword, setUserPassword] = useState({
         password: ''
-    })
-    const [password, setPassword] = useState('')
+    });
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(false);
     
     useEffect(() => {
     generatePW()
     }, []);
 
+
  const generatePW = async () => {
     try {
         const res = await Api.get('random')
         setPassword(res.data.password)
+        setError(false)
     } catch (err) {
         console.error(err)
+        setError(true)
     }
  }
 
@@ -29,15 +33,23 @@ const Home = () => {
         }
     }
     
-    
      try {
          const res = await Api.post('create', pw , config)
          setUserPassword({
              password: res.data.password
             })
+            setError(false)
      } catch (err) {
          console.error(err)
+         setError(true)
      }
+ }
+ const errorMessage = () => {
+     return (
+         <Alert variant='danger'>
+             <p className='mb-0 text-center'>There was a problem loading your password</p>
+         </Alert>
+     )
  }
  const onChange = (e) => {
         setUserPassword({ 
@@ -58,6 +70,7 @@ const Home = () => {
                     <Row className='d-flex'>
                         <Col xs className='mx-auto'>
                         <Card.Header> 
+                        {error && errorMessage()}
                         <h1 style={{textAlign: 'center', color: '#163a62'}}>Generate a secure password</h1>
                         </Card.Header>
                         </Col>
