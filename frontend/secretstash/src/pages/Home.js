@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Card, Button, Form, Divider, Input, Segment, Icon}  from 'semantic-ui-react';
-import {Container, Row, Col, Alert} from 'react-bootstrap';
+import {Container, Row, Col, Alert, Spinner} from 'react-bootstrap';
 import Api from '../util/Api';
 
 const Home = () => {
@@ -9,60 +9,71 @@ const Home = () => {
     });
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
-    generatePW()
-    }, []);
+        if (!error) {
+            generatePW()
+        } 
+    }, [loading, error]);
 
-
- const generatePW = async () => {
-    try {
-        const res = await Api.get('random')
-        setPassword(res.data.password)
-        setError(false)
-    } catch (err) {
-        console.error(err)
-        setError(true)
-    }
- }
-
- const hashPW = async (pw) => {
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
+    const generatePW = async () => {
+        try {
+            const res = await Api.get('random')
+            setPassword(res.data.password)
+            setError(false)
+            setLoading(false)
+        } catch (err) {
+            console.error(err)
+            setError(true)
+            setLoading(false)
         }
     }
-    
-     try {
-         const res = await Api.post('create', pw , config)
-         setUserPassword({
-             password: res.data.password
+    const hashPW = async (pw) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        
+        try {
+            const res = await Api.post('create', pw , config)
+            setUserPassword({
+                password: res.data.password
             })
             setError(false)
-     } catch (err) {
-         console.error(err)
-         setError(true)
-     }
- }
- const errorMessage = () => {
-     return (
-         <Alert variant='danger'>
-             <p className='mb-0 text-center'>There was a problem loading your password</p>
-         </Alert>
-     )
- }
- const onChange = (e) => {
+            setLoading(false)
+        } catch (err) {
+            console.error(err)
+            setError(true)
+            setLoading(false)
+        }
+    }
+    const errorMessage = () => {
+        return (
+            <Alert variant='danger'>
+                <p className='mb-0 mt-0 text-center'>There was a problem generating your password</p>
+            </Alert>
+        )
+    }
+    const loader = () => {
+        return (
+            <Spinner className='d-flex mx-auto' animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+            </Spinner>
+        )
+    }
+    const onChange = (e) => {
         setUserPassword({ 
-         [e.target.name] : e.target.value
+            [e.target.name] : e.target.value
         })
     }
- 
- const onSubmit = (e) => {
-    e.preventDefault();
-    if(userPassword.password !== '') {
-        hashPW(userPassword)
+    const onSubmit = (e) => {
+        e.preventDefault();
+        if(userPassword.password !== '') {
+            hashPW(userPassword)
+        }
     }
- }
     return (
         <Container className='py-5'>
             <Card >
@@ -85,7 +96,7 @@ const Home = () => {
                                 <Segment raised padded className='seg'>
                                     <Row className='d-flex'>
                                         <Col  xs={10} lg={11} className='flex-column mx-auto'>
-                                            <h4 className='mb-0'>{password}</h4>
+                                            <h4 className='mb-0'>{loading ? loader() : password}</h4>
                                         </Col>
                                         <Col xs={2} md={1}>
                                         <span>
