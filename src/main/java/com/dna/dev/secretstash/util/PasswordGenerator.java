@@ -3,7 +3,6 @@ package com.dna.dev.secretstash.util;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -21,6 +20,15 @@ public class PasswordGenerator {
 
     public String generateBase64Password(String password) {
         String saltedPassword = password + environment.getProperty("salt");
+        byte[] newPassword = saltedPassword.getBytes();
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(newPassword);
+    }
+
+    public String generateBase64PasswordWithCustomSalt(String password, String salt) {
+        if(salt == null){
+            salt = "";
+        }
+        String saltedPassword = password + salt;
         byte[] newPassword = saltedPassword.getBytes();
         return Base64.getUrlEncoder().withoutPadding().encodeToString(newPassword);
     }
